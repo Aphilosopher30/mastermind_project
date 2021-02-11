@@ -5,7 +5,13 @@ class Sequence
     @pegs = pegs
   end
 
-
+  def sequence_pegs_to_strings
+    string = ""
+    @pegs.each do |peg |
+      string += peg.color
+    end
+    string.upcase
+  end
 
 
 
