@@ -20,4 +20,16 @@ class Game
 
 
 
+
+  ############
+
+
+
+
+
+#!!!!!!!!
+  def feedback(code, correct_element, correct_position, guess_count)
+    "'#{code}' has #{correct_element} of the correct elements with #{correct_position} in the correct positions\nYou've taken #{guess_count} guess"
+  end
+
 end
