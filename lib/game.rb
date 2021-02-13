@@ -62,6 +62,7 @@ class Game
       print START_MESSAGE
     else
       quit(input)
+      return "I'm sorry, I don't know what #{input} means. \n\n Please enter (i)nstructions, (p)lay, or (q)uit."
     end
   end
 
