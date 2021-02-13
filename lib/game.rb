@@ -59,10 +59,11 @@ class Game
       p INSTRUCTIONS_MESSAGE
     elsif play(input) == true
       #start game
-      print START_MESSAGE
+      iteration = true
+      p GAMEFLOW_MESSAGE
     else
       quit(input)
-      return "I'm sorry, I don't know what #{input} means. \n\n Please enter (i)nstructions, (p)lay, or (q)uit."
+      p "I'm sorry, I don't know what #{input} means. \n\n Please enter (i)nstructions, (p)lay, or (q)uit."
     end
   end
 
@@ -71,6 +72,15 @@ class Game
   # if they enter i or instructions - gives a instructions message
   # if they enter q our quit - it exits game
   # use .lowercase, .chomp, if imput == p/play return true
+
+  def start_game
+    p START_MESSAGE
+    iteration = false
+    while iteration == false
+      user_input = self.get_input
+      input_response(user_input)
+    end
+  end
 
 
 
