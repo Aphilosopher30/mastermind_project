@@ -15,6 +15,7 @@ class GameTest < Minitest::Test
     assert_instance_of Game, game
   end
 
+
   def test_start_message
     game = Game.new
 
@@ -51,5 +52,46 @@ class GameTest < Minitest::Test
     assert_equal message, game.feedback(code, correct_element, correct_position, guess_count)
 
   end
+
+
+
+
+
+  def test_it_has_a_readable_guess_count
+    game = Game.new
+
+    assert_equal 0, game.guess_count
+  end
+
+  def test_evaluate_guess
+    game = Game.new
+
+    peg1 = Peg.new('r')
+    peg2 = Peg.new('g')
+    peg3 = Peg.new('y')
+    peg4 = Peg.new('b')
+    peg5 = Peg.new('r')
+    peg6 = Peg.new('g')
+    peg7 = Peg.new('y')
+    peg8 = Peg.new('b')
+
+    sequence = Sequence.new([peg1, peg2, peg3, peg4])
+    guess = Guess.new([peg5, peg6, peg7, peg8])
+
+    turn = Turn.new(sequence, guess)
+
+    feedback = "'RGYB' has 4 of the correct elements with 4 in the correct positions\nYou've taken 0 guess"
+
+
+    assert_equal feedback, game.evaluate_guess(turn)
+  end
+
+  def test_incrament_guess_count
+    game = Game.new
+    game.incrament_guess_count
+
+    assert_equal 1, game.guess_count
+  end
+
 
 end
