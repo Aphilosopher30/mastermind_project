@@ -1,45 +1,63 @@
+require './lib/peg'
+require './lib/guess'
+require './lib/sequence'
 
-def initialize(pegs)
-    @pegs = pegs
-    @correct_place_color_count = 0
-    @just_correct_color_count = 0
-  end
-  def get_correct_guesses_count(guess)
-    @pegs.length.times do |index|
-      if compare_pegs?(guess, index) == true
-        @correct_place_color_count += 1
-      else
-        @correct_place_color_count
-      end
-    end
-    return @correct_place_color_count
+class Turn
+  attr_reader :sequence, :guess, :correct_entities, :correct_placement
+
+  def initialize(sequence, guess)
+    @sequence = sequence
+    @guess   = guess
+    @correct_entities = 0
+    @correct_placement = 0
   end
 
-
-def just_correct_colors_count(guess)
-    @pegs.each do |peg1|
-      guess.pegs.each do |peg2|
-        if peg1.color == peg2.color && peg1.match == false && peg2.match == false
-          @just_correct_color_count += 1
-          peg1.change_match_to_true
-          peg2.change_match_to_true
-        else
-          @just_correct_color_count
-        end
-      end
-    end
-  end
-
-
-  def compare_pegs?(guess, index)
-    sequence_peg = @pegs[index]
-    guess_peg = guess.pegs[index]
-    if sequence_peg.color == guess_peg.color && sequence_peg.match == false && guess_peg.match == false
-      sequence_peg.change_match_to_true
-      guess_peg.change_match_to_true
+  def compare_pegs?(sequence_peg, guess_peg)
+    if sequence_peg.match || guess_peg.match
+      result = false
+    elsif  sequence_peg.color == guess_peg.color
       result = true
     else
       result = false
     end
     return result
   end
+
+  def get_correct_placement_count
+    @sequence.pegs.length.times do |index|
+      index = 0
+      sequence_peg = @sequence.pegs[index]
+      guess_peg = @guess.pegs[index]
+      if self.compare_pegs?(sequence_peg, guess_peg)
+        @correct_placement += 1
+      end
+    end
+  end
+
+  def get_correct_entities_count
+    @sequence.pegs.each do |sequence_peg|
+      @guess.pegs.each do |guess_peg|
+        if compare_pegs?(sequence_peg, guess_peg)
+            @correct_entities += 1
+            sequence_peg.change_match_to_true
+            guess_peg.change_match_to_true
+        end
+      end
+    end
+    reset_matches
+  end
+
+
+  def reset_matches
+    @sequence.pegs.each do |peg|
+      peg.change_match_to_false
+    end
+    @guess.pegs.each do |peg|
+      peg.change_match_to_false
+    end
+  end
+
+
+
+
+end
