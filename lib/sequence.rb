@@ -1,4 +1,6 @@
 class Sequence
+
+  ######## TAKE METHODS WE NEED AND REFACTOR THEN DELETE SEQUENCE
   attr_reader :pegs, :correct_place_color_count, :just_correct_color_count
 
   def initialize(pegs)
@@ -6,7 +8,7 @@ class Sequence
     @correct_place_color_count = 0
     @just_correct_color_count = 0
   end
-  
+
   def get_correct_guesses_count(guess)
     @pegs.length.times do |index|
       if compare_pegs?(guess, index) == true
@@ -17,7 +19,7 @@ class Sequence
     end
     return @correct_place_color_count
   end
-  
+
   def just_correct_colors_count(guess)
     @pegs.each do |peg1|
       guess.pegs.each do |peg2|
@@ -31,7 +33,7 @@ class Sequence
       end
     end
   end
-  
+
   def compare_pegs?(guess, index)
     sequence_peg = @pegs[index]
     guess_peg = guess.pegs[index]
@@ -44,7 +46,7 @@ class Sequence
     end
     return result
   end
-  
+
   def sequence_pegs_to_strings
     string = ""
     @pegs.each do |peg|

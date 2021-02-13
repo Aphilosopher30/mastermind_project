@@ -8,6 +8,7 @@ class Game
 
   START_MESSAGE = "Welcome to MASTERMIND \n\nWould you like to (p)lay, read the (i)nstructions, or (q)uit?\n>"
   INSTRUCTIONS_MESSAGE = ""
+  GAMEFLOW_MESSAGE = "I have generated a beginner sequence with four elements made up of: (r)ed, (g)reen, (b)lue, and (y)ellow. Use (q)uit at any time to end the game.\n What's your guess?"
 
 
   def initialize
@@ -22,6 +23,17 @@ class Game
     INSTRUCTIONS_MESSAGE
   end
 
+  def gameflow_message
+    GAMEFLOW_MESSAGE
+  end
+
+# Create these methods for game
+  # if they enter p or play - they enter the game flow
+  # if they enter i or instructions - gives a instructions message
+  # if they enter q our quit - it exits game
+  # use .lowercase, .chomp, if imput == p/play return true
+
+
 
   def incrament_guess_count
     @guess_count += 1
@@ -29,11 +41,19 @@ class Game
 
 
   ############
+  #need game to actually create the the secret code
+    #once made then we print game flow message
 
 
-  #ask for input
+  #ask for input - enter a guess
+  # also can imput q/quit - exit game
+  # c/cheat - print out current secret code
     #take string as input and check to see it is the  right length
-  # take string input and out put the message report
+  # take string input and output the feedback
+    # evaluate guess?
+  # repeat loop until guess == secret code
+
+
 
   def evaluate_guess (turn)
     turn.get_correct_placement_count
@@ -66,7 +86,10 @@ class Game
   #   "Congratulations! You guessed the sequence '#{turn.sequence.pegs_to_strings}' in #{@guess_count} guesses over '#{minutes}' minutes, '#{seconds}' seconds.  \n \n Do you want to (p)lay again or (q)uit?"
   # end
 
-
+  #need to figure out the minutes and seconds thing AKA time
+  # end game method input
+    #if p/play play again
+    #if q/quit exit game
 
 
 end

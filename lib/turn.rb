@@ -1,7 +1,7 @@
 require './lib/peg'
 require './lib/guess'
 require './lib/sequence'
-
+################ REFACTOR TO WORK WITH SECRET CODE
 class Turn
   attr_reader :sequence, :guess, :correct_entities, :correct_placement
 
