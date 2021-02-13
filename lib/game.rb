@@ -30,7 +30,7 @@ class Game
   ############
 
   #get input
-  #turn string input into a guess class 
+  #turn string input into a guess class
   #only coninue if input is the right kind
 
   def check_guess_length(guess)

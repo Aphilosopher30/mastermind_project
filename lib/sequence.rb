@@ -1,4 +1,6 @@
 class Sequence
+
+  ######## TAKE METHODS WE NEED AND REFACTOR THEN DELETE SEQUENCE
   attr_reader :pegs, :correct_place_color_count, :just_correct_color_count
 
   def initialize(pegs)
