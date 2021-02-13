@@ -27,13 +27,21 @@ class Game
     @guess_count += 1
   end
 
-
   ############
 
+  #get input
+  #turn string input into a guess class 
+  #only coninue if input is the right kind
 
-  #ask for input
-    #take string as input and check to see it is the  right length
-  # take string input and out put the message report
+  def check_guess_length(guess)
+    code_length = 4
+    if guess.pegs.length > code_length
+      return "It's too long"
+    elsif guess.pegs.length < code_length
+      return "It's too short"
+    end
+  end
+
 
   def evaluate_guess (turn)
     turn.get_correct_placement_count
@@ -42,21 +50,14 @@ class Game
     feedback(turn.guess.pegs_to_strings, turn.correct_entities, turn.correct_placement, @guess_count)
   end
 
-
-#!!!!!!!!
   def feedback(code, correct_element, correct_position, guess_count)
     "'#{code}' has #{correct_element} of the correct elements with #{correct_position} in the correct positions\nYou've taken #{guess_count} guess"
   end
 
 
-  def guess_length(guess)
-    code_length = 4
-    if guess.pegs.length > code_length
-      return "It's too long"
-    elsif guess.pegs.length < code_length
-      return "It's too short"
-    end
-  end
+
+
+
 
 
 

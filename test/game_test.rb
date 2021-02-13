@@ -93,7 +93,7 @@ class GameTest < Minitest::Test
     assert_equal 1, game.guess_count
   end
 
-  def test_guess_length
+  def test_check_guess_length
     game = Game.new
 
     peg1 = Peg.new('r')
@@ -109,8 +109,8 @@ class GameTest < Minitest::Test
     guess2 = Guess.new([peg1, peg2, peg3, peg4, peg5, peg6])
 
 
-    assert_equal "It's too short", game.guess_length(guess1)
-    assert_equal "It's too long", game.guess_length(guess2)
+    assert_equal "It's too short", game.check_guess_length(guess1)
+    assert_equal "It's too long", game.check_guess_length(guess2)
 
   end
 
