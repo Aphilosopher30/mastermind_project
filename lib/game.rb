@@ -9,6 +9,7 @@ class Game
   START_MESSAGE = "Welcome to MASTERMIND \n\nWould you like to (p)lay, read the (i)nstructions, or (q)uit?\n>"
   INSTRUCTIONS_MESSAGE = ""
 
+
   def initialize
     @guess_count = 0
   end
@@ -42,13 +43,30 @@ class Game
   end
 
 
-
-
-
-
 #!!!!!!!!
   def feedback(code, correct_element, correct_position, guess_count)
     "'#{code}' has #{correct_element} of the correct elements with #{correct_position} in the correct positions\nYou've taken #{guess_count} guess"
   end
+
+
+  def guess_length(guess)
+    code_length = 4
+    if guess.pegs.length > code_length
+      return "It's too long"
+    elsif guess.pegs.length < code_length
+      return "It's too short"
+    end
+  end
+
+
+
+
+
+  # def end_message(turn, minutes, seconds)
+  #   "Congratulations! You guessed the sequence '#{turn.sequence.pegs_to_strings}' in #{@guess_count} guesses over '#{minutes}' minutes, '#{seconds}' seconds.  \n \n Do you want to (p)lay again or (q)uit?"
+  # end
+
+
+
 
 end
