@@ -27,7 +27,7 @@ class GameTest < Minitest::Test
   def test_instrucitons_message
     game = Game.new
 
-    message = ""
+    message = "test"
 
     assert_equal message, game.instructions_message
   end
@@ -52,10 +52,6 @@ class GameTest < Minitest::Test
     assert_equal message, game.feedback(code, correct_element, correct_position, guess_count)
 
   end
-
-
-
-
 
   def test_it_has_a_readable_guess_count
     game = Game.new
@@ -113,6 +109,40 @@ class GameTest < Minitest::Test
     assert_equal "It's too long", game.check_guess_length(guess2)
 
   end
+
+  def test_play
+    game = Game.new
+
+    assert_equal true, game.play("p")
+    assert_equal true, game.play("play")
+    assert_equal false, game.play("i")
+  end
+
+
+  def test_instructions
+    game = Game.new
+
+    assert_equal true, game.instructions("i")
+    assert_equal true, game.instructions("instructions")
+    assert_equal false, game.instructions("p")
+  end
+
+  def test_quit
+    skip
+    game = Game.new
+
+    assert_equal exit, game.instructions("q")
+    assert_equal exit, game.instructions("quit")
+  end
+
+  def test_input_response
+    game = Game.new
+
+    input = "i"
+
+    assert_equal "test", game.input_response(input)
+  end
+
 
 
 end
