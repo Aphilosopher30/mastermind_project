@@ -4,7 +4,7 @@ require './lib/secret_code'
 require './lib/turn'
 
 class Game
-  attr_reader :guess_count
+  attr_reader :guess_count, :secret_game_code, :start_time, :end_time
 
   START_MESSAGE = "Welcome to MASTERMIND \n\nWould you like to (p)lay, read the (i)nstructions, or (q)uit?\n>"
   INSTRUCTIONS_MESSAGE = "test"
@@ -12,6 +12,9 @@ class Game
 
   def initialize
     @guess_count = 0
+    @secret_game_code = 'no code yet'
+    @start_time = 0
+    @end_time = 0
   end
 
   def start_message
@@ -52,7 +55,6 @@ class Game
     end
   end
 
-
   def input_response(input)
     if instructions(input) == true
       p INSTRUCTIONS_MESSAGE
@@ -66,12 +68,6 @@ class Game
     end
   end
 
-# Create these methods for game
-  # if they enter p or play - they enter the game flow
-  # if they enter i or instructions - gives a instructions message
-  # if they enter q our quit - it exits game
-  # use .lowercase, .chomp, if imput == p/play return true
-
   def start_game
     p START_MESSAGE
     iteration = false
@@ -81,63 +77,79 @@ class Game
     end
   end
 
-
-
   def incrament_guess_count
     @guess_count += 1
   end
 
+  def begin_game
+    @secret_game_code = SecretCode.new
+    p GAMEFLOW_MESSAGE
+  end
 
-  ############
-  #need game to actually create the the secret code
-    #once made then we print game flow message
+  def cheat(player_input)
+    if player_input == "c" || player_input == "cheat"
+      true
+    else
+      false
+    end
+  end
 
-
-  #ask for input - enter a guess
-  # also can imput q/quit - exit game
-  # c/cheat - print out current secret code
-    #take string as input and check to see it is the  right length
-  # take string input and output the feedback
-    # evaluate guess?
-  # repeat loop until guess == secret code
-
-
+  def gameflow_input_response(input)
+    correct_guesses = 0
+    if cheat(input) == true
+      p @secret_game_code.pegs_to_strings
+    elsif game.check_guess_length(input) == true
+      turn = Turn.new(@secret_game_code, input)
+      evaluate_guess(turn)
+      correct_guesses = turn.correct_placement
+    else
+      quit(input)
+      p "I'm sorry, I don't know what #{input} means. \n\n Please enter 'r', 'y', 'g', 'b', for your guess or (q)uit to exit game."
+    end
+    return correct_guesses
+  end
 
   def evaluate_guess (turn)
     turn.get_correct_placement_count
     turn.get_correct_entities_count
 
+    incrament_guess_count
+
     feedback(turn.guess.pegs_to_strings, turn.correct_entities, turn.correct_placement, @guess_count)
   end
 
-
-#!!!!!!!!
   def feedback(code, correct_element, correct_position, guess_count)
-    "'#{code}' has #{correct_element} of the correct elements with #{correct_position} in the correct positions\nYou've taken #{guess_count} guess"
+    p "'#{code}' has #{correct_element} of the correct elements with #{correct_position} in the correct positions \n You've taken #{guess_count} guess"
   end
-
 
   def check_guess_length(guess)
     code_length = 4
     if guess.pegs.length > code_length
-      return "It's too long"
+      p "It's too long"
+      return false
     elsif guess.pegs.length < code_length
-      return "It's too short"
+      p "It's too short"
+      return false
+    else
+      true
     end
   end
 
+  def end_message
+    p "Congratulations! You guessed the sequence '#{@secret_game_code.pegs_to_strings}' in #{@guess_count} guesses over '#{elapsed_minutes}' minutes, '#{elapsed_seconds}' seconds.  \n \n Do you want to (p)lay again or (q)uit?"
+  end
 
+# create new game somehow.
 
+  def elapsed_time_in_seconds
+    (@end_time - @start_time).round
+  end
 
+  def elapsed_minutes(seconds = elapsed_time_in_seconds)
+    seconds/60
+  end
 
-  # def end_message(turn, minutes, seconds)
-  #   "Congratulations! You guessed the sequence '#{turn.secret_code.pegs_to_strings}' in #{@guess_count} guesses over '#{minutes}' minutes, '#{seconds}' seconds.  \n \n Do you want to (p)lay again or (q)uit?"
-  # end
-
-  #need to figure out the minutes and seconds thing AKA time
-  # end game method input
-    #if p/play play again
-    #if q/quit exit game
-
-
+  def elapsed_seconds(seconds = elapsed_time_in_seconds)
+    seconds%60
+  end
 end

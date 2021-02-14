@@ -48,16 +48,19 @@ class GameTest < Minitest::Test
     correct_position = 2
     guess_count = 1
 
-    message = "'RRGB' has 3 of the correct elements with 2 in the correct positions\nYou've taken 1 guess"
+    message = "'RRGB' has 3 of the correct elements with 2 in the correct positions \n You've taken 1 guess"
 
     assert_equal message, game.feedback(code, correct_element, correct_position, guess_count)
 
   end
 
-  def test_it_has_a_readable_guess_count
+  def test_it_has_readable_attributes
     game = Game.new
 
+    assert_equal 'no code yet', game.secret_game_code
     assert_equal 0, game.guess_count
+    assert_equal 0, game.start_time
+    assert_equal 0, game.end_time
   end
 
   def test_evaluate_guess
@@ -77,7 +80,7 @@ class GameTest < Minitest::Test
 
     turn = Turn.new(secret_code, guess)
 
-    feedback = "'RGYB' has 4 of the correct elements with 4 in the correct positions\nYou've taken 0 guess"
+    feedback = "'RGYB' has 4 of the correct elements with 4 in the correct positions \n You've taken 1 guess"
 
     assert_equal feedback, game.evaluate_guess(turn)
   end
@@ -105,8 +108,8 @@ class GameTest < Minitest::Test
     guess2 = Guess.new([peg1, peg2, peg3, peg4, peg5, peg6])
 
 
-    assert_equal "It's too short", game.check_guess_length(guess1)
-    assert_equal "It's too long", game.check_guess_length(guess2)
+    assert_equal false, game.check_guess_length(guess1)
+    assert_equal  false, game.check_guess_length(guess2)
 
   end
 
@@ -136,6 +139,7 @@ class GameTest < Minitest::Test
   end
 
   def test_input_response
+    skip
     game = Game.new
 
     input = "i"
@@ -143,6 +147,55 @@ class GameTest < Minitest::Test
     assert_equal "test", game.input_response(input)
   end
 
+  def test_begin_game
+    skip
+    game = Game.new
+    game.begin_game
 
+    expected = "I have generated a beginner sequence with four elements made up of: (r)ed, (g)reen, (b)lue, and (y)ellow. Use (q)uit at any time to end the game.\n What's your guess?"
+
+    assert_equal expected, game.gameflow_message
+    assert_instance_of SecretCode, game.secret_game_code
+  end
+
+  def test_cheat
+    game = Game.new
+
+    assert_equal true, game.cheat("c")
+    assert_equal true, game.cheat("cheat")
+    assert_equal false, game.cheat("i")
+  end
+
+  def test_elapsed_time_in_seconds
+    game = Game.new
+
+    assert_equal 0, game.elapsed_time_in_seconds
+  end
+
+  def test_elapsed_minutes
+    game = Game.new
+
+    time_test1 = 5
+    time_test2 = 59
+    time_test3 = 95
+    time_test4 = 137
+    assert_equal 0, game.elapsed_minutes(time_test1)
+    assert_equal 0, game.elapsed_minutes(time_test2)
+    assert_equal 1, game.elapsed_minutes(time_test3)
+    assert_equal 2, game.elapsed_minutes(time_test4)
+  end
+
+  def test_elapsed_seconds
+    game = Game.new
+
+    time_test1 = 5
+    time_test2 = 59
+    time_test3 = 95
+    time_test4 = 137
+    assert_equal 5, game.elapsed_seconds(time_test1)
+    assert_equal 59, game.elapsed_seconds(time_test2)
+    assert_equal 35, game.elapsed_seconds(time_test3)
+    assert_equal 17, game.elapsed_seconds(time_test4)
+  end
 
 end
