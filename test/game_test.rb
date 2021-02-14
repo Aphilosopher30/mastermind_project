@@ -2,9 +2,10 @@ require 'minitest/autorun'
 require 'minitest/pride'
 require './lib/peg'
 require './lib/guess'
-require './lib/sequence'
 require './lib/turn'
 require './lib/game'
+require './lib/secret_code'
+
 
 
 class GameTest < Minitest::Test
@@ -53,10 +54,6 @@ class GameTest < Minitest::Test
 
   end
 
-
-
-
-
   def test_it_has_a_readable_guess_count
     game = Game.new
 
@@ -75,13 +72,12 @@ class GameTest < Minitest::Test
     peg7 = Peg.new('y')
     peg8 = Peg.new('b')
 
-    sequence = Sequence.new([peg1, peg2, peg3, peg4])
+    secret_code = SecretCode.new([peg1, peg2, peg3, peg4])
     guess = Guess.new([peg5, peg6, peg7, peg8])
 
-    turn = Turn.new(sequence, guess)
+    turn = Turn.new(secret_code, guess)
 
     feedback = "'RGYB' has 4 of the correct elements with 4 in the correct positions\nYou've taken 0 guess"
-
 
     assert_equal feedback, game.evaluate_guess(turn)
   end

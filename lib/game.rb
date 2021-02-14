@@ -1,6 +1,6 @@
 require './lib/peg'
 require './lib/guess'
-require './lib/sequence'
+require './lib/secret_code'
 require './lib/turn'
 
 class Game
@@ -8,7 +8,6 @@ class Game
 
   START_MESSAGE = "Welcome to MASTERMIND \n\nWould you like to (p)lay, read the (i)nstructions, or (q)uit?\n>"
   INSTRUCTIONS_MESSAGE = ""
-
 
   def initialize
     @guess_count = 0
@@ -64,7 +63,7 @@ class Game
 
 
   # def end_message(turn, minutes, seconds)
-  #   "Congratulations! You guessed the sequence '#{turn.sequence.pegs_to_strings}' in #{@guess_count} guesses over '#{minutes}' minutes, '#{seconds}' seconds.  \n \n Do you want to (p)lay again or (q)uit?"
+  #   "Congratulations! You guessed the sequence '#{turn.secret_code.pegs_to_strings}' in #{@guess_count} guesses over '#{minutes}' minutes, '#{seconds}' seconds.  \n \n Do you want to (p)lay again or (q)uit?"
   # end
 
 

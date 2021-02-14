@@ -2,11 +2,10 @@ require 'minitest/autorun'
 require 'minitest/pride'
 require './lib/peg'
 require './lib/guess'
-require './lib/sequence'
+require './lib/secret_code'
 require './lib/turn'
 
-
-class SequenceTest < Minitest::Test
+class SecretCodeTest < Minitest::Test
 
   def test_it_exists
     peg1 = Peg.new('r')
@@ -19,9 +18,9 @@ class SequenceTest < Minitest::Test
     peg8 = Peg.new('y')
 
     guess = Guess.new([peg5, peg6, peg7, peg8])
-    sequence = Sequence.new([peg1, peg2, peg3, peg4])
+    secret_code = SecretCode.new([peg1, peg2, peg3, peg4])
 
-    turn = Turn.new(guess, sequence)
+    turn = Turn.new(guess, secret_code)
 
     assert_instance_of Turn, turn
   end
@@ -37,15 +36,15 @@ class SequenceTest < Minitest::Test
     peg8 = Peg.new('y')
 
     guess = Guess.new([peg5, peg6, peg7, peg8])
-    sequence = Sequence.new([peg1, peg2, peg3, peg4])
+    secret_code = SecretCode.new
 
-    turn = Turn.new(sequence, guess)
+    turn = Turn.new(secret_code, guess)
 
 
     assert_equal 0, turn.correct_entities
     assert_equal 0, turn.correct_placement
     assert_equal guess, turn.guess
-    assert_equal sequence, turn.sequence
+    assert_equal secret_code, turn.secret_code
   end
 
   def test_get_correct_enteties_count
@@ -58,12 +57,12 @@ class SequenceTest < Minitest::Test
     peg7 = Peg.new('y')
     peg8 = Peg.new('b')
 
-    sequence = Sequence.new([peg1, peg2, peg3, peg4])
+    secret_code = SecretCode.new([peg1, peg2, peg3, peg4])
     guess1 = Guess.new([peg5, peg6, peg7, peg8])
     guess2 = Guess.new([peg6, peg5, peg8, peg7])
 
-    turn1 = Turn.new(sequence, guess1)
-    turn2 = Turn.new(sequence, guess2)
+    turn1 = Turn.new(secret_code, guess1)
+    turn2 = Turn.new(secret_code, guess2)
 
     turn1.get_correct_entities_count
     turn2.get_correct_entities_count
@@ -82,10 +81,10 @@ class SequenceTest < Minitest::Test
     peg7 = Peg.new('b')
     peg8 = Peg.new('y')
 
-    sequence = Sequence.new([peg1, peg2, peg3, peg4])
+    secret_code = SecretCode.new([peg1, peg2, peg3, peg4])
     guess = Guess.new([peg5, peg6, peg7, peg8])
 
-    turn = Turn.new(guess, sequence)
+    turn = Turn.new(secret_code, guess)
 
     assert_equal false, turn.compare_pegs?(peg1, peg8)
     assert_equal true, turn.compare_pegs?(peg1, peg5)
@@ -102,10 +101,10 @@ class SequenceTest < Minitest::Test
     peg7 = Peg.new('y')
     peg8 = Peg.new('b')
 
-    sequence = Sequence.new([peg1, peg2, peg3, peg4])
+    secret_code = SecretCode.new([peg1, peg2, peg3, peg4])
     guess = Guess.new([peg5, peg6, peg7, peg8])
 
-    turn = Turn.new(sequence, guess)
+    turn = Turn.new(secret_code, guess)
 
     turn.get_correct_placement_count
 
