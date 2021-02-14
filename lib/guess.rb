@@ -1,3 +1,4 @@
+require './lib/peg'
 
 class Guess
   attr_reader :pegs
