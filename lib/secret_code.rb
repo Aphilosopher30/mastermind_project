@@ -8,14 +8,14 @@ class SecretCode
   end
 
   def create_random_peg_color
-    code = []
+    codebreaker_code = []
     color_options = ['r', 'y', 'b', 'g']
     4.times do
       peg_color = color_options.sample
       peg = Peg.new(peg_color)
       code << peg
     end
-    code
+    codegreaker_code 
     # possible_colors = []
     # @color_options = ['r', 'y', 'b', 'g']
     # @color_options.each do |color|
