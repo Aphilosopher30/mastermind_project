@@ -36,16 +36,4 @@ class GuessTest < Minitest::Test
     assert_equal 'RGYB', guess.pegs_to_strings
   end
 
-
-
-  # def test_guess_count
-  #   peg1 = Peg.new('r')
-  #   peg2 = Peg.new('g')
-  #   peg3 = Peg.new('y')
-  #   peg4 = Peg.new('b')
-  #   guess = Guess.new([peg1, peg2, peg3, peg4])
-  #
-  #   assert_equal
-  # end
-
 end
