@@ -43,10 +43,10 @@ class Turn
         end
       end
     end
-    reset_matches
+    reset_peg_matches
   end
 
-  def reset_matches
+  def reset_peg_matches
     @secret_code.pegs.each do |peg|
       peg.change_match_to_false
     end
