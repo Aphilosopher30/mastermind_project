@@ -13,16 +13,9 @@ class SecretCode
     4.times do
       peg_color = color_options.sample
       peg = Peg.new(peg_color)
-      code << peg
+      codebreaker_code << peg
     end
-    codegreaker_code 
-    # possible_colors = []
-    # @color_options = ['r', 'y', 'b', 'g']
-    # @color_options.each do |color|
-    #   400.times {possible_colors << color}
-    # end
-    # color = possible_colors.shuffle
-    # color.slice(0,4)
+    codebreaker_code
   end
 
   def pegs_to_strings
