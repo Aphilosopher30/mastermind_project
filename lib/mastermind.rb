@@ -3,6 +3,7 @@ require './lib/guess'
 require './lib/secret_code'
 require './lib/turn'
 require './lib/game'
+require './lib/timer'
 
 
 game = Game.new
@@ -16,17 +17,6 @@ while restart == true
     input = game.get_input
     number_of_correct_guesses = game.gameflow_input_response(input)
   end
-  game.end_message
-  valid_input = false
-  while valid_input == false
-  input = game.get_input
-    if game.play(input)
-      game.begin_playing
-      valid_input = true
-      restart = true
-    else
-      game.quit(input)
-      puts "I'm sorry I do not understand this input, please try again."
-    end
-  end
+
+  restart = game.end_game
 end
