@@ -110,7 +110,7 @@ class Game
     elsif check_guess_length(input) == true
       guess = turn_string_into_guess(input)
       turn = Turn.new(@secret_game_code, guess)
-      evaluate_guess(turn)
+      puts evaluate_guess(turn)
       correct_guesses = turn.correct_placement
     else
       puts "I'm sorry, I don't know what #{input} means. \n\n Please enter 'r', 'y', 'g', 'b', for your guess or (q)uit to exit game."
@@ -136,15 +136,15 @@ class Game
   end
 
   def feedback(code, correct_element, correct_position, guess_count)
-    puts "'#{code}' has #{correct_element} of the correct elements with #{correct_position} in the correct positions \n You've taken #{guess_count} guess"
+    "'#{code}' has #{correct_element} of the correct elements with #{correct_position} in the correct positions \n You've taken #{guess_count} guess"
   end
 
   def check_guess_length(guess)
     code_length = 4
-    if guess.length > code_length
+    if guess.pegs.length > code_length
       p "It's too long"
       return false
-    elsif guess.length < code_length
+    elsif guess.pegs.length < code_length
       p "It's too short"
       return false
     else
