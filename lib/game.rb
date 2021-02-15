@@ -8,13 +8,15 @@ class Game
 
   START_MESSAGE = "Welcome to MASTERMIND \n\nWould you like to (p)lay, read the (i)nstructions, or (q)uit?\n>"
   INSTRUCTIONS_MESSAGE = "test"
-  GAMEFLOW_MESSAGE = "I have generated a beginner sequence with four elements made up of: (r)ed, (g)reen, (b)lue, and (y)ellow. Use (q)uit at any time to end the game.\n What's your guess?"
+  GAMEFLOW_MESSAGE = "I have generated a beginner sequence with four elements made up of: (r)ed, (g)reen, (b)lue, and (y)ellow. Use (q)uit at any time to end the game. \nWhat's your guess?"
 
   def initialize
     @guess_count = 0
     @secret_game_code = 'no code yet'
     @start_time = 0
     @end_time = 0
+    @minutes = 0
+    @seconds = 0
   end
 
   def start_message
@@ -56,24 +58,29 @@ class Game
   end
 
   def input_response(input)
+    continue_on = false
     if instructions(input) == true
-      p INSTRUCTIONS_MESSAGE
+      puts INSTRUCTIONS_MESSAGE
+      continue_on = true
     elsif play(input) == true
-      #start game
-      iteration = true
-      p GAMEFLOW_MESSAGE
+      continue_on = true
+      begin_game
     else
       quit(input)
-      p "I'm sorry, I don't know what #{input} means. \n\n Please enter (i)nstructions, (p)lay, or (q)uit."
+      puts "I'm sorry, I don't know what #{input} means. \n\n Please enter (i)nstructions, (p)lay, or (q)uit."
+      continue_on = false
     end
+      return continue_on
   end
 
+
+
   def start_game
-    p START_MESSAGE
-    iteration = false
-    while iteration == false
-      user_input = self.get_input
-      input_response(user_input)
+    print self.start_message
+    continue = false
+    while continue == false
+      player_input = self.get_input
+      continue = self.input_response(player_input)
     end
   end
 
@@ -82,6 +89,7 @@ class Game
   end
 
   def begin_game
+    @start_time = Time.new
     @secret_game_code = SecretCode.new
     p GAMEFLOW_MESSAGE
   end
@@ -96,20 +104,29 @@ class Game
 
   def gameflow_input_response(input)
     correct_guesses = 0
+    quit(input)
     if cheat(input) == true
       p @secret_game_code.pegs_to_strings
-    elsif game.check_guess_length(input) == true
-      turn = Turn.new(@secret_game_code, input)
+    elsif check_guess_length(input) == true
+      guess = turn_string_into_guess(input)
+      turn = Turn.new(@secret_game_code, guess)
       evaluate_guess(turn)
       correct_guesses = turn.correct_placement
     else
-      quit(input)
       p "I'm sorry, I don't know what #{input} means. \n\n Please enter 'r', 'y', 'g', 'b', for your guess or (q)uit to exit game."
     end
     return correct_guesses
   end
 
-  def evaluate_guess (turn)
+  def turn_string_into_guess(string)
+    array_of_colors = string.split(//)
+    peg_array = array_of_colors.map do |color|
+      peg = Peg.new(color)
+    end
+    guess = Guess.new(peg_array)
+  end
+
+  def evaluate_guess(turn)
     turn.get_correct_placement_count
     turn.get_correct_entities_count
 
@@ -124,10 +141,10 @@ class Game
 
   def check_guess_length(guess)
     code_length = 4
-    if guess.pegs.length > code_length
+    if guess.length > code_length
       p "It's too long"
       return false
-    elsif guess.pegs.length < code_length
+    elsif guess.length < code_length
       p "It's too short"
       return false
     else
@@ -136,20 +153,21 @@ class Game
   end
 
   def end_message
-    p "Congratulations! You guessed the sequence '#{@secret_game_code.pegs_to_strings}' in #{@guess_count} guesses over '#{elapsed_minutes}' minutes, '#{elapsed_seconds}' seconds.  \n \n Do you want to (p)lay again or (q)uit?"
+    @end_time = Time.new
+    p "Congratulations! You guessed the sequence '#{@secret_game_code.pegs_to_strings}' in #{@guess_count} guesses over '#{self.elapsed_minutes}' minutes, '#{self.elapsed_seconds}' seconds.  \n \n Do you want to (p)lay again or (q)uit?"
   end
-
-# create new game somehow.
 
   def elapsed_time_in_seconds
     (@end_time - @start_time).round
   end
 
-  def elapsed_minutes(seconds = elapsed_time_in_seconds)
-    seconds/60
+  def elapsed_minutes(seconds = self.elapsed_time_in_seconds)
+     seconds/60
   end
 
-  def elapsed_seconds(seconds = elapsed_time_in_seconds)
+  def elapsed_seconds(seconds = self.elapsed_time_in_seconds)
     seconds%60
   end
+
+
 end

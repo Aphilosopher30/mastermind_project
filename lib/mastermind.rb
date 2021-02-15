@@ -1,11 +1,20 @@
-# put correct guesses in while loop untill it reaches all correct guesses
+require './lib/peg'
+require './lib/guess'
+require './lib/secret_code'
+require './lib/turn'
+require './lib/game'
 
 
+game = Game.new
 
+game.start_game
 
+game.start_time
 
+number_of_correct_guesses = 0
+while number_of_correct_guesses != game.secret_game_code.pegs.length
+  input = game.get_input
+  number_of_correct_guesses = game.gameflow_input_response(input)
+end
 
-
-# For time
-# numbr_of_seconds = game.elapsed_time_in_seconds
-# game.elapsed_minutes(numbr_of_seconds) - mastermind woot woot
+game.end_message
