@@ -136,10 +136,10 @@ class Game
 
   def check_guess_length(guess)
     code_length = 4
-    if guess.pegs.length > code_length
+    if guess.length > code_length
       p "It's too long"
       return false
-    elsif guess.pegs.length < code_length
+    elsif guess.length < code_length
       p "It's too short"
       return false
     else
@@ -147,8 +147,25 @@ class Game
     end
   end
 
+  def end_game
+    end_message
+    valid_input = false
+    while valid_input == false
+    input = get_input
+      if play(input)
+        begin_playing
+        valid_input = true
+        restart = true
+      else
+        quit(input)
+        puts "I'm sorry I do not understand this input, please try again."
+      end
+    end
+    return restart
+  end
+
   def end_message
     @timer.end_time
-    puts "Congratulations! You guessed the sequence '#{@secret_game_code.pegs_to_strings}' in #{@guess_count} guesses over '#{@timer.elapsed_minutes}' minutes, '#{@timer.elapsed_seconds}' seconds.  \n \n Do you want to (p)lay again or (q)uit?"
+    puts "Congratulations! You guessed the sequence '#{@secret_game_code.pegs_to_strings}' in #{@guess_count} guesses over #{@timer.elapsed_minutes} minutes, #{@timer.elapsed_seconds} seconds.  \n \n Do you want to (p)lay again or (q)uit?"
   end
 end
