@@ -8,13 +8,11 @@ class Turn
   def initialize(secret_code, guess)
     @secret_code = secret_code
     @guess = guess
-    @correct_entities = 0
-    @correct_placement = 0
+    @correct_entities = get_correct_entities_count
+    @correct_placement = get_correct_placement_count
   end
 
   def evaluate_guess(turn_number)
-    get_correct_placement_count
-    get_correct_entities_count
     feedback(turn_number)
   end
 
@@ -30,26 +28,30 @@ class Turn
   end
 
   def get_correct_placement_count
+    correct_location = 0
     @secret_code.pegs.length.times do |index|
       secret_code_peg = @secret_code.pegs[index]
       guess_peg = @guess.pegs[index]
       if self.compare_pegs?(secret_code_peg, guess_peg)
-        @correct_placement += 1
+        correct_location += 1
       end
     end
+    correct_location
   end
 
   def get_correct_entities_count
+    correct_colors = 0
     @secret_code.pegs.each do |secret_code_peg|
       @guess.pegs.each do |guess_peg|
         if compare_pegs?(secret_code_peg, guess_peg)
-          @correct_entities += 1
+          correct_colors += 1
           secret_code_peg.change_match_to_true
           guess_peg.change_match_to_true
         end
       end
     end
     reset_peg_matches
+    correct_colors
   end
 
   def reset_peg_matches

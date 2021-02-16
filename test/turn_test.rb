@@ -36,11 +36,11 @@ class SecretCodeTest < Minitest::Test
     peg8 = Peg.new('y')
 
     guess = Guess.new([peg5, peg6, peg7, peg8])
-    secret_code = SecretCode.new
+    secret_code = SecretCode.new([peg1, peg2, peg3, peg4])
 
     turn = Turn.new(secret_code, guess)
 
-    assert_equal 0, turn.correct_entities
+    assert_equal 4, turn.correct_entities
     assert_equal 0, turn.correct_placement
     assert_equal guess, turn.guess
     assert_equal secret_code, turn.secret_code
@@ -239,7 +239,7 @@ class SecretCodeTest < Minitest::Test
 
     turn_number = 1
 
-    message = "'RRGB' has 0 of the correct elements with 0 in the correct positions \n You've taken 1 guess"
+    message = "'RRGB' has 3 of the correct elements with 2 in the correct positions \n You've taken 1 guess"
 
     assert_equal message, turn.feedback(turn_number)
   end

@@ -54,29 +54,33 @@ class Game
     end
   end
 
-  def input_response(input)
-    quit(input)
+  def input_response
     start_the_game = false
-    if print_instructions?(input)
-      puts INSTRUCTIONS_MESSAGE
+    while start_the_game == false
+      player_input = get_input
+      quit(player_input)
       start_the_game = false
-    elsif play?(input)
-      start_the_game = true
-      begin_playing
-    else
-      puts "I'm sorry, I don't know what #{input} means. \n\n Please enter (i)nstructions, (p)lay, or (q)uit."
-      start_the_game = false
+      if print_instructions?(player_input)
+        puts INSTRUCTIONS_MESSAGE
+        start_the_game = false
+      elsif play?(player_input)
+        start_the_game = true
+        begin_playing
+      else
+        puts "I'm sorry, I don't know what #{player_input} means. \n\n Please enter (i)nstructions, (p)lay, or (q)uit."
+        start_the_game = false
+      end
     end
-    start_the_game
   end
 
   def start_game
     print start_message
-    continue = false
-    while continue == false
-      player_input = get_input
-      continue = input_response(player_input)
-    end
+    input_response
+    # continue = false
+    # while continue == false
+    #   player_input = get_input
+    #   continue = input_response(player_input)
+    # end
   end
 
   def incrament_guess_count
