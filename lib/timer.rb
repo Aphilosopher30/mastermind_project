@@ -7,9 +7,7 @@ class Timer
     @minutes = 0
     @seconds = 0
   end
-
-
-
+  
   def end_time
     end_time = Time.new
     @total_seconds = (end_time - @start_time).round

@@ -160,6 +160,10 @@ class Game
 
   def end_game
     end_message
+    play_again?
+  end
+
+  def play_again?
     valid_input = false
     while valid_input == false
     input = get_input
@@ -174,6 +178,7 @@ class Game
     end
     restart
   end
+
 
   def end_message
     @timer.end_time
