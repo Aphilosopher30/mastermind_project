@@ -36,11 +36,11 @@ class SecretCodeTest < Minitest::Test
     peg8 = Peg.new('y')
 
     guess = Guess.new([peg5, peg6, peg7, peg8])
-    secret_code = SecretCode.new
+    secret_code = SecretCode.new([peg1, peg2, peg3, peg4])
 
     turn = Turn.new(secret_code, guess)
 
-    assert_equal 0, turn.correct_entities
+    assert_equal 4, turn.correct_entities
     assert_equal 0, turn.correct_placement
     assert_equal guess, turn.guess
     assert_equal secret_code, turn.secret_code
@@ -168,7 +168,6 @@ class SecretCodeTest < Minitest::Test
     turn_some_right.get_correct_placement_count
     turn_no_right.get_correct_placement_count
 
-
     assert_equal 4, turn_all_right.correct_placement
     assert_equal 2, turn_some_right.correct_placement
     assert_equal 0, turn_no_right.correct_placement
@@ -221,5 +220,49 @@ class SecretCodeTest < Minitest::Test
     assert_equal false, turn.guess.pegs[1].match
     assert_equal false, turn.guess.pegs[2].match
     assert_equal false, turn.guess.pegs[3].match
+  end
+
+  def test_feedback
+    peg1 = Peg.new('r')
+    peg2 = Peg.new('r')
+    peg3 = Peg.new('g')
+    peg4 = Peg.new('b')
+    guess = Guess.new([peg1, peg2, peg3, peg4])
+
+    peg5 = Peg.new('r')
+    peg6 = Peg.new('r')
+    peg7 = Peg.new('b')
+    peg8 = Peg.new('y')
+    secret_code = SecretCode.new([peg5, peg6, peg7, peg8])
+
+    turn = Turn.new(secret_code, guess)
+
+    turn_number = 1
+
+    message = "'RRGB' has 3 of the correct elements with 2 in the correct positions \n You've taken 1 guess"
+
+    assert_equal message, turn.feedback(turn_number)
+  end
+
+  def test_evaluate_guess
+    peg1 = Peg.new('r')
+    peg2 = Peg.new('g')
+    peg3 = Peg.new('y')
+    peg4 = Peg.new('b')
+    peg5 = Peg.new('r')
+    peg6 = Peg.new('g')
+    peg7 = Peg.new('y')
+    peg8 = Peg.new('b')
+
+    secret_code = SecretCode.new([peg1, peg2, peg3, peg4])
+    guess = Guess.new([peg5, peg6, peg7, peg8])
+
+    turn_number = 1
+
+    turn = Turn.new(secret_code, guess)
+
+    feedback = "'RGYB' has 4 of the correct elements with 4 in the correct positions \n You've taken 1 guess"
+
+    assert_equal feedback, turn.evaluate_guess(turn_number)
   end
 end
