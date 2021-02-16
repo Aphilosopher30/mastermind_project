@@ -243,4 +243,26 @@ class SecretCodeTest < Minitest::Test
 
     assert_equal message, turn.feedback(turn_number)
   end
+
+  def test_evaluate_guess
+    peg1 = Peg.new('r')
+    peg2 = Peg.new('g')
+    peg3 = Peg.new('y')
+    peg4 = Peg.new('b')
+    peg5 = Peg.new('r')
+    peg6 = Peg.new('g')
+    peg7 = Peg.new('y')
+    peg8 = Peg.new('b')
+
+    secret_code = SecretCode.new([peg1, peg2, peg3, peg4])
+    guess = Guess.new([peg5, peg6, peg7, peg8])
+
+    turn_number = 1
+
+    turn = Turn.new(secret_code, guess)
+
+    feedback = "'RGYB' has 4 of the correct elements with 4 in the correct positions \n You've taken 1 guess"
+
+    assert_equal feedback, turn.evaluate_guess(turn_number)
+  end
 end

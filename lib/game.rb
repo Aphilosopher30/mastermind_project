@@ -65,7 +65,7 @@ class Game
       begin_playing
     else
       puts "I'm sorry, I don't know what #{input} means. \n\n Please enter (i)nstructions, (p)lay, or (q)uit."
-      continue_on = false
+      start_the_game = false
     end
     start_the_game
   end
@@ -104,8 +104,9 @@ class Game
       puts @secret_game_code.pegs_to_strings
     elsif check_guess_length(input)
       guess = turn_string_into_guess(input)
+      incrament_guess_count
       turn = Turn.new(@secret_game_code, guess)
-      puts evaluate_guess(turn)
+      puts turn.evaluate_guess(@guess_count)
       correct_guesses = turn.correct_placement
     else
       puts "I'm sorry, I don't know what #{input} means. \n\n Please enter 'r', 'y', 'g', or 'b', for your guess or (q)uit to exit game."
@@ -119,13 +120,6 @@ class Game
       peg = Peg.new(color)
     end
     Guess.new(peg_array)
-  end
-
-  def evaluate_guess(turn)
-    turn.get_correct_placement_count
-    turn.get_correct_entities_count
-    incrament_guess_count
-    turn.feedback(@guess_count)
   end
 
   def check_guess_length(guess)
@@ -145,12 +139,16 @@ class Game
     restart = true
     while restart == true
       restart = false
-      number_of_correct_guesses = 0
-      while number_of_correct_guesses != secret_game_code.pegs.length
-        input = get_input
-        number_of_correct_guesses = gameflow_input_response(input)
-      end
+      guess_the_code
       restart = end_game
+    end
+  end
+
+  def guess_the_code
+    number_of_correct_guesses = 0
+    while number_of_correct_guesses != secret_game_code.pegs.length
+      input = get_input
+      number_of_correct_guesses = gameflow_input_response(input)
     end
   end
 
