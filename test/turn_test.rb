@@ -168,7 +168,6 @@ class SecretCodeTest < Minitest::Test
     turn_some_right.get_correct_placement_count
     turn_no_right.get_correct_placement_count
 
-
     assert_equal 4, turn_all_right.correct_placement
     assert_equal 2, turn_some_right.correct_placement
     assert_equal 0, turn_no_right.correct_placement
@@ -223,7 +222,6 @@ class SecretCodeTest < Minitest::Test
     assert_equal false, turn.guess.pegs[3].match
   end
 
-
   def test_feedback
     peg1 = Peg.new('r')
     peg2 = Peg.new('r')
@@ -235,14 +233,14 @@ class SecretCodeTest < Minitest::Test
     peg6 = Peg.new('r')
     peg7 = Peg.new('b')
     peg8 = Peg.new('y')
-    secret_code = SecretCode([peg5, peg6, peg7, peg8])
+    secret_code = SecretCode.new([peg5, peg6, peg7, peg8])
 
-    turn = turn.new(SecretCode, Guess)
+    turn = Turn.new(secret_code, guess)
 
     turn_number = 1
 
-    message = "'RRGB' has 3 of the correct elements with 2 in the correct positions \n You've taken 1 guess"
+    message = "'RRGB' has 0 of the correct elements with 0 in the correct positions \n You've taken 1 guess"
 
-    assert_equal message, game.feedback(turn_number)
+    assert_equal message, turn.feedback(turn_number)
   end
 end

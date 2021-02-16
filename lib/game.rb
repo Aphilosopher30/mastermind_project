@@ -32,7 +32,7 @@ class Game
     gets.chomp.downcase.strip.delete(' ')
   end
 
-  def play(player_input)
+  def play?(player_input)
     if player_input == "p" || player_input == "play"
       true
     else
@@ -40,7 +40,7 @@ class Game
     end
   end
 
-  def instructions(player_input)
+  def print_instructions?(player_input)
     if player_input == "i" || player_input == "instructions"
       true
     else
@@ -55,19 +55,19 @@ class Game
   end
 
   def input_response(input)
-    continue_on = false
-    if instructions(input)
+    quit(input)
+    start_the_game = false
+    if print_instructions?(input)
       puts INSTRUCTIONS_MESSAGE
-      continue_on = false
-    elsif play(input)
-      continue_on = true
+      start_the_game = false
+    elsif play?(input)
+      start_the_game = true
       begin_playing
     else
-      quit(input)
       puts "I'm sorry, I don't know what #{input} means. \n\n Please enter (i)nstructions, (p)lay, or (q)uit."
       continue_on = false
     end
-    continue_on
+    start_the_game
   end
 
   def start_game
@@ -89,7 +89,7 @@ class Game
     puts GAMEFLOW_MESSAGE
   end
 
-  def cheat(player_input)
+  def cheat?(player_input)
     if player_input == "c" || player_input == "cheat"
       true
     else
@@ -100,7 +100,7 @@ class Game
   def gameflow_input_response(input)
     correct_guesses = 0
     quit(input)
-    if cheat(input)
+    if cheat?(input)
       puts @secret_game_code.pegs_to_strings
     elsif check_guess_length(input)
       guess = turn_string_into_guess(input)
@@ -114,7 +114,7 @@ class Game
   end
 
   def turn_string_into_guess(string)
-    array_of_colors = string.split(//)
+    array_of_colors = string.split("")
     peg_array = array_of_colors.map do |color|
       peg = Peg.new(color)
     end
@@ -125,16 +125,16 @@ class Game
     turn.get_correct_placement_count
     turn.get_correct_entities_count
     incrament_guess_count
-    feedback(@guess_count)
+    turn.feedback(@guess_count)
   end
 
   def check_guess_length(guess)
     code_length = @secret_game_code.pegs.length
     if guess.length > code_length
-      p "It's too long"
+      puts "It's too long"
       return false
     elsif guess.length < code_length
-      p "It's too short"
+      puts "It's too short"
       return false
     else
       return true
@@ -163,7 +163,7 @@ class Game
     valid_input = false
     while valid_input == false
     input = get_input
-      if play(input)
+      if play?(input)
         begin_playing
         valid_input = true
         restart = true

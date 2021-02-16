@@ -7,7 +7,7 @@ class Turn
 
   def initialize(secret_code, guess)
     @secret_code = secret_code
-    @guess   = guess
+    @guess = guess
     @correct_entities = 0
     @correct_placement = 0
   end
@@ -20,7 +20,7 @@ class Turn
     else
       result = false
     end
-    return result
+    result
   end
 
   def get_correct_placement_count
@@ -37,9 +37,9 @@ class Turn
     @secret_code.pegs.each do |secret_code_peg|
       @guess.pegs.each do |guess_peg|
         if compare_pegs?(secret_code_peg, guess_peg)
-            @correct_entities += 1
-            secret_code_peg.change_match_to_true
-            guess_peg.change_match_to_true
+          @correct_entities += 1
+          secret_code_peg.change_match_to_true
+          guess_peg.change_match_to_true
         end
       end
     end
@@ -55,9 +55,7 @@ class Turn
     end
   end
 
-
   def feedback(guess_count)
-    "'#{@guess.pegs_to_strings}' has #{@correct_element} of the correct elements with #{@correct_position} in the correct positions \n You've taken #{guess_count} guess"
+    "'#{@guess.pegs_to_strings}' has #{@correct_entities} of the correct elements with #{@correct_placement} in the correct positions \n You've taken #{guess_count} guess"
   end
-
 end

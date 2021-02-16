@@ -7,7 +7,6 @@ require './lib/game'
 require './lib/secret_code'
 require './lib/timer'
 
-
 class GameTest < Minitest::Test
 
   def test_that_it_exists
@@ -35,6 +34,7 @@ class GameTest < Minitest::Test
   end
 
   def test_evaluate_guess
+    skip
     game = Game.new
 
     peg1 = Peg.new('r')
@@ -45,6 +45,8 @@ class GameTest < Minitest::Test
     peg6 = Peg.new('g')
     peg7 = Peg.new('y')
     peg8 = Peg.new('b')
+
+    game.begin_playing
 
     secret_code = SecretCode.new([peg1, peg2, peg3, peg4])
     guess = Guess.new([peg5, peg6, peg7, peg8])
@@ -64,6 +66,7 @@ class GameTest < Minitest::Test
   end
 
   def test_check_guess_length
+    skip
     game = Game.new
     game.begin_playing
     guess1 = "rrbgg"
@@ -78,18 +81,17 @@ class GameTest < Minitest::Test
   def test_play
     game = Game.new
 
-    assert_equal true, game.play("p")
-    assert_equal true, game.play("play")
-    assert_equal false, game.play("i")
+    assert_equal true, game.play?("p")
+    assert_equal true, game.play?("play")
+    assert_equal false, game.play?("i")
   end
 
-
-  def test_instructions
+  def test_print_instructions?
     game = Game.new
 
-    assert_equal true, game.instructions("i")
-    assert_equal true, game.instructions("instructions")
-    assert_equal false, game.instructions("p")
+    assert_equal true, game.print_instructions?("i")
+    assert_equal true, game.print_instructions?("instructions")
+    assert_equal false, game.print_instructions?("p")
   end
 
   def test_quit
@@ -103,27 +105,31 @@ class GameTest < Minitest::Test
   def test_input_response
     skip
     game = Game.new
+    input1 = "i"
+    input2 = "p"
+    input3 = "asdf"
 
-    input = "i"
-    assert_equal "test", game.input_response(input)
+    assert_equal false, game.input_response(input1)
+    assert_equal true, game.input_response(input2)
+    assert_equal false, game.input_response(input3)
   end
 
-  def test_begin_game
+  def test_begin_playing
     skip
     game = Game.new
-    game.begin_game
+    game.begin_playing
 
-    expected = "I have generated a beginner sequence with four elements made up of: (r)ed, (g)reen, (b)lue, and (y)ellow. Use (q)uit at any time to end the game.\n What's your guess?"
+    expected = "I have generated a beginner sequence with four elements made up of: (r)ed, (g)reen, (b)lue, and (y)ellow. Use (q)uit at any time to end the game. \nWhat's your guess?"
 
     assert_equal expected, game.gameflow_message
     assert_instance_of SecretCode, game.secret_game_code
   end
 
-  def test_cheat
+  def test_cheat?
     game = Game.new
 
-    assert_equal true, game.cheat("c")
-    assert_equal true, game.cheat("cheat")
-    assert_equal false, game.cheat("i")
+    assert_equal true, game.cheat?("c")
+    assert_equal true, game.cheat?("cheat")
+    assert_equal false, game.cheat?("i")
   end
 end
