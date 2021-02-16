@@ -76,11 +76,6 @@ class Game
   def start_game
     print start_message
     input_response
-    # continue = false
-    # while continue == false
-    #   player_input = get_input
-    #   continue = input_response(player_input)
-    # end
   end
 
   def incrament_guess_count
