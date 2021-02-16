@@ -55,4 +55,9 @@ class Turn
     end
   end
 
+
+  def feedback(guess_count)
+    "'#{@guess.pegs_to_strings}' has #{@correct_element} of the correct elements with #{@correct_position} in the correct positions \n You've taken #{guess_count} guess"
+  end
+
 end

@@ -27,26 +27,6 @@ class GameTest < Minitest::Test
     assert_equal message, game.instructions_message
   end
 
-  def test_feedback
-    game = Game.new
-
-    peg1 = Peg.new('r')
-    peg2 = Peg.new('r')
-    peg3 = Peg.new('g')
-    peg4 = Peg.new('b')
-    guess = Guess.new([peg1, peg2, peg3, peg4])
-
-    code = guess.pegs_to_strings
-
-    correct_element = 3
-    correct_position = 2
-    guess_count = 1
-
-    message = "'RRGB' has 3 of the correct elements with 2 in the correct positions \n You've taken 1 guess"
-
-    assert_equal message, game.feedback(code, correct_element, correct_position, guess_count)
-  end
-
   def test_it_has_readable_attributes
     game = Game.new
 

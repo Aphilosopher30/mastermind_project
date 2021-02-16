@@ -222,4 +222,27 @@ class SecretCodeTest < Minitest::Test
     assert_equal false, turn.guess.pegs[2].match
     assert_equal false, turn.guess.pegs[3].match
   end
+
+
+  def test_feedback
+    peg1 = Peg.new('r')
+    peg2 = Peg.new('r')
+    peg3 = Peg.new('g')
+    peg4 = Peg.new('b')
+    guess = Guess.new([peg1, peg2, peg3, peg4])
+
+    peg5 = Peg.new('r')
+    peg6 = Peg.new('r')
+    peg7 = Peg.new('b')
+    peg8 = Peg.new('y')
+    secret_code = SecretCode([peg5, peg6, peg7, peg8])
+
+    turn = turn.new(SecretCode, Guess)
+
+    turn_number = 1
+
+    message = "'RRGB' has 3 of the correct elements with 2 in the correct positions \n You've taken 1 guess"
+
+    assert_equal message, game.feedback(turn_number)
+  end
 end

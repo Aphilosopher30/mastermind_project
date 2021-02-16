@@ -125,11 +125,7 @@ class Game
     turn.get_correct_placement_count
     turn.get_correct_entities_count
     incrament_guess_count
-    feedback(turn.guess.pegs_to_strings, turn.correct_entities, turn.correct_placement, @guess_count)
-  end
-
-  def feedback(code, correct_element, correct_position, guess_count)
-    "'#{code}' has #{correct_element} of the correct elements with #{correct_position} in the correct positions \n You've taken #{guess_count} guess"
+    feedback(@guess_count)
   end
 
   def check_guess_length(guess)
@@ -178,7 +174,6 @@ class Game
     end
     restart
   end
-
 
   def end_message
     @timer.end_time
