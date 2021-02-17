@@ -83,11 +83,53 @@ class Game
     @guess_count += 1
   end
 
+  def beginner?(player_input)
+    if player_input == "b" || player_input == "beginner"
+      true
+    else
+      false
+    end
+  end
+
+  def intermediate?(player_input)
+    if player_input == "i" || player_input == "intermediate"
+      true
+    else
+      false
+    end
+  end
+
+  def advanced?(player_input)
+    if player_input == "a" || player_input == "advanced"
+      true
+    else
+      false
+    end
+  end
+
   def begin_playing
+    puts "Choose your difficulty level, (b)eginner, (i)ntermediate, or (a)dvanced?"
+    level_choice = false
+    while level_choice == false
+      player_input = get_input
+      if advanced?(player_input)
+        level_choice = true
+        number_of_colors = 6
+        length_of_code = 8
+      elsif intermediate?(player_input)
+        level_choice = true
+        number_of_colors = 5
+        length_of_code = 6
+      elsif beginner?(player_input)
+        level_choice = true
+        number_of_colors = 4
+        length_of_code = 4
+      else
+        puts "I'm sorry, I don't know what #{player_input} means. \n\n Please enter (b)eginner, (i)ntermediate, or (a)dvanced."
+      end
+    end
+    @difficulty = GameLevel.new(number_of_colors, length_of_code)
     @timer = Timer.new
-    number_of_colors = 4
-    legth_of_code = 4
-    @difficulty = GameLevel.new(number_of_colors, legth_of_code)
     @secret_game_code = SecretCode.new(@difficulty.create_random_peg_array)
     puts gameflow_message
   end
