@@ -107,11 +107,11 @@ class Game
     end
   end
 
-  def begin_playing
-    puts "Choose your difficulty level, (b)eginner, (i)ntermediate, or (a)dvanced?"
+  def choose_dificulty
     level_choice = false
     while level_choice == false
       player_input = get_input
+      quit(player_input)
       if advanced?(player_input)
         level_choice = true
         number_of_colors = 6
@@ -125,13 +125,18 @@ class Game
         number_of_colors = 4
         length_of_code = 4
       else
-        puts "I'm sorry, I don't know what #{player_input} means. \n\n Please enter (b)eginner, (i)ntermediate, or (a)dvanced."
+        puts "I'm sorry, I don't know what '#{player_input}' means. \n\nPlease enter (b)eginner, (i)ntermediate, or (a)dvanced."
       end
     end
     @difficulty = GameLevel.new(number_of_colors, length_of_code)
-    @timer = Timer.new
+  end
+
+  def begin_playing
+    puts "Choose your difficulty level, (b)eginner, (i)ntermediate, or (a)dvanced?"
+    choose_dificulty
     @secret_game_code = SecretCode.new(@difficulty.create_random_peg_array)
     puts gameflow_message
+    @timer = Timer.new
   end
 
   def cheat?(player_input)
