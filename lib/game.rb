@@ -31,7 +31,9 @@ class Game
   end
 
   def get_input
-    gets.chomp.downcase.strip.delete(' ')
+    player_input = gets.chomp.downcase.strip.delete(' ')
+    quit(player_input)
+    player_input
   end
 
   def play?(player_input)
@@ -60,7 +62,6 @@ class Game
     start_the_game = false
     while start_the_game == false
       player_input = get_input
-      quit(player_input)
       if print_instructions?(player_input)
         puts INSTRUCTIONS_MESSAGE
       elsif play?(player_input)
@@ -109,7 +110,6 @@ class Game
     level_choice = false
     while level_choice == false
       player_input = get_input
-      quit(player_input)
       if advanced?(player_input)
         level_choice = true
         number_of_colors = 6
@@ -146,7 +146,6 @@ class Game
   end
 
   def gameflow_input_response(input)
-    quit(input)
     if cheat?(input)
       puts @secret_game_code.pegs_to_strings
     elsif check_guess_length(input)
@@ -212,8 +211,8 @@ class Game
       if play?(input)
         begin_playing
         valid_input = true
+        restart = true
       else
-        quit(input)
         puts "I'm sorry I do not understand this input, please try again."
       end
     end
