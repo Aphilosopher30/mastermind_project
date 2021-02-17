@@ -154,14 +154,18 @@ class Game
       puts @secret_game_code.pegs_to_strings
     elsif check_guess_length(input)
       guess = turn_string_into_guess(input)
-      incrament_guess_count
-      turn = Turn.new(@secret_game_code, guess)
-      puts turn.evaluate_guess(@guess_count)
-      correct_guesses = turn.correct_placement
+      correct_guesses = evaluate_guess(guess)
     else
       puts "I'm sorry, I don't know what #{input} means. \n\n Please enter as sequences using these elements: #{@difficulty.current_colors.join(", ")}, for your guess or (q)uit to exit game."
     end
     correct_guesses
+  end
+
+  def evaluate_guess(guess)
+    incrament_guess_count
+    turn = Turn.new(@secret_game_code, guess)
+    puts turn.feedback(@guess_count)
+    correct_guesses = turn.correct_placement
   end
 
   def turn_string_into_guess(string)

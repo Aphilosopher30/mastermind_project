@@ -12,10 +12,6 @@ class Turn
     @correct_placement = get_correct_placement_count
   end
 
-  def evaluate_guess(turn_number)
-    feedback(turn_number)
-  end
-
   def compare_pegs?(secret_code_peg, guess_peg)
     if secret_code_peg.match || guess_peg.match
       result = false
