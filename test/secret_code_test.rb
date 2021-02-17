@@ -19,13 +19,6 @@ class SecretCodeTest < Minitest::Test
     assert_instance_of Array, secret_code.pegs
   end
 
-  def test_create_random_peg_color
-    secret_code = SecretCode.new
-
-    assert_equal 4, secret_code.create_random_peg_color.length
-    assert_instance_of Array, secret_code.create_random_peg_color
-  end
-
   def test_pegs_to_strings
 
     peg1 = Peg.new('r')

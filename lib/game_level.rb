@@ -11,4 +11,14 @@ class GameLevel
   def create_current_colors_list
     @current_colors = @all_colors.slice(0, @color_amount)
   end
+
+  def create_random_peg_array
+    codebreaker_code = []
+    @code_length.times do
+      peg_color = @current_colors.sample
+      peg = Peg.new(peg_color)
+      codebreaker_code << peg
+    end
+    codebreaker_code
+  end
 end
