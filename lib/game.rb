@@ -14,7 +14,7 @@ class Game
     @guess_count = 0
     @secret_game_code = 'no code yet'
     @timer = "time not started yet"
-    @difficulty = "?????"
+    @difficulty = "indeterminate"
     @correct_guesses = 0
   end
 
@@ -152,7 +152,7 @@ class Game
       guess = turn_string_into_guess(input)
       evaluate_guess(guess)
     else
-      puts "I'm sorry, I don't know what #{input} means. \n\n Please enter as sequences using these elements: #{@difficulty.current_colors.join(", ")}, for your guess or (q)uit to exit game."
+      puts "I'm sorry, I don't know what #{input} means. \n\n Please enter a #{@difficulty.code_length} character sequences using these elements: #{@difficulty.current_colors.join(", ")}, for your guess or (q)uit to exit game."
     end
   end
 

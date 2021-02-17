@@ -16,7 +16,7 @@ class GameTest < Minitest::Test
 
   def test_start_message
     game = Game.new
-    message = "Welcome to MASTERMIND \n\nWould you like to (p)lay, read the (i)nstructions, or (q)uit?\n>"
+    message = "\nWelcome to MASTERMIND \n\nWould you like to (p)lay, read the (i)nstructions, or (q)uit?\n>"
     assert_equal message, game.start_message
   end
 
@@ -109,9 +109,9 @@ class GameTest < Minitest::Test
     input2 = "p"
     input3 = "asdf"
 
-    assert_equal false, game.input_response(input1)
-    assert_equal true, game.input_response(input2)
-    assert_equal false, game.input_response(input3)
+    assert_equal false, game.input_response
+    assert_equal true, game.input_response
+    assert_equal false, game.input_response
   end
 
   def test_begin_playing
@@ -119,7 +119,7 @@ class GameTest < Minitest::Test
     game = Game.new
     game.begin_playing
 
-    expected = "I have generated a beginner sequence with four elements made up of: (r)ed, (g)reen, (b)lue, and (y)ellow. Use (q)uit at any time to end the game. \nWhat's your guess?"
+    expected = "I have generated a beginner sequence with 4 elements made up of: (r)ed, (g)reen, (b)lue and (y)ellow. Use (q)uit at any time to end the game. \nWhat's your guess?"
 
     assert_equal expected, game.gameflow_message
     assert_instance_of SecretCode, game.secret_game_code
