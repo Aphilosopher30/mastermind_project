@@ -31,10 +31,18 @@ class GameLevelTest < Minitest::Test
 
     valid_colors = game_level.create_random_peg_array.all? do |peg|
       game_level.all_colors.include?(peg.color)
-    end 
+    end
 
     assert_equal 4, game_level.create_random_peg_array.length
     assert_instance_of Array, game_level.create_random_peg_array
     assert_equal true, valid_colors
+  end
+
+  def test_color_string
+    game_level = GameLevel.new(4,4)
+    string = game_level.color_string
+
+    assert_equal "(r)ed, (g)reen, (b)lue and (y)ellow", string
+
   end
 end
