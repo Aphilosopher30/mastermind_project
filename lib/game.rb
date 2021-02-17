@@ -18,44 +18,9 @@ class Game
     @correct_guesses = 0
   end
 
-  def start_message
-    START_MESSAGE
-  end
-
-  def instructions_message
-    INSTRUCTIONS_MESSAGE
-  end
-
-  def gameflow_message
-    "I have generated a beginner sequence with #{@difficulty.code_length} elements made up of: #{@difficulty.color_string}. Use (q)uit at any time to end the game. \nWhat's your guess?"
-  end
-
-  def get_input
-    player_input = gets.chomp.downcase.strip.delete(' ')
-    quit(player_input)
-    player_input
-  end
-
-  def play?(player_input)
-    if player_input == "p" || player_input == "play"
-      true
-    else
-      false
-    end
-  end
-
-  def print_instructions?(player_input)
-    if player_input == "i" || player_input == "instructions"
-      true
-    else
-      false
-    end
-  end
-
-  def quit(player_input)
-    if player_input == "q" || player_input == "quit"
-      exit
-    end
+  def start_game
+    print start_message
+    input_response
   end
 
   def input_response
@@ -73,37 +38,12 @@ class Game
     end
   end
 
-  def start_game
-    print start_message
-    input_response
-  end
-
-  def incrament_guess_count
-    @guess_count += 1
-  end
-
-  def beginner?(player_input)
-    if player_input == "b" || player_input == "beginner"
-      true
-    else
-      false
-    end
-  end
-
-  def intermediate?(player_input)
-    if player_input == "i" || player_input == "intermediate"
-      true
-    else
-      false
-    end
-  end
-
-  def advanced?(player_input)
-    if player_input == "a" || player_input == "advanced"
-      true
-    else
-      false
-    end
+  def begin_playing
+    puts "Choose your difficulty level, (b)eginner, (i)ntermediate, or (a)dvanced?"
+    choose_dificulty
+    @secret_game_code = SecretCode.new(@difficulty.create_random_peg_array)
+    puts gameflow_message
+    @timer = Timer.new
   end
 
   def choose_dificulty
@@ -129,19 +69,18 @@ class Game
     @difficulty = GameLevel.new(number_of_colors, length_of_code)
   end
 
-  def begin_playing
-    puts "Choose your difficulty level, (b)eginner, (i)ntermediate, or (a)dvanced?"
-    choose_dificulty
-    @secret_game_code = SecretCode.new(@difficulty.create_random_peg_array)
-    puts gameflow_message
-    @timer = Timer.new
+  def player_gameflow
+    restart = true
+    while restart == true
+      guess_the_code
+      restart = end_game
+    end
   end
 
-  def cheat?(player_input)
-    if player_input == "c" || player_input == "cheat"
-      true
-    else
-      false
+  def guess_the_code
+    while @correct_guesses != secret_game_code.pegs.length
+      input = get_input
+      gameflow_input_response(input)
     end
   end
 
@@ -184,21 +123,6 @@ class Game
     end
   end
 
-  def player_gameflow
-    restart = true
-    while restart == true
-      guess_the_code
-      restart = end_game
-    end
-  end
-
-  def guess_the_code
-    while @correct_guesses != secret_game_code.pegs.length
-      input = get_input
-      gameflow_input_response(input)
-    end
-  end
-
   def end_game
     end_message
     play_again?
@@ -222,5 +146,82 @@ class Game
   def end_message
     @timer.end_time
     puts "Congratulations! You guessed the sequence '#{@secret_game_code.pegs_to_strings}' in #{@guess_count} guesses over #{@timer.elapsed_minutes} minutes, #{@timer.elapsed_seconds} seconds.  \n \n Do you want to (p)lay again or (q)uit?"
+  end
+
+
+  def get_input
+    player_input = gets.chomp.downcase.strip.delete(' ')
+    quit(player_input)
+    player_input
+  end
+
+  def start_message
+    START_MESSAGE
+  end
+
+  def instructions_message
+    INSTRUCTIONS_MESSAGE
+  end
+
+  def gameflow_message
+    "I have generated a beginner sequence with #{@difficulty.code_length} elements made up of: #{@difficulty.color_string}. Use (q)uit at any time to end the game. \nWhat's your guess?"
+  end
+
+  def play?(player_input)
+    if player_input == "p" || player_input == "play"
+      true
+    else
+      false
+    end
+  end
+
+  def print_instructions?(player_input)
+    if player_input == "i" || player_input == "instructions"
+      true
+    else
+      false
+    end
+  end
+
+  def quit(player_input)
+    if player_input == "q" || player_input == "quit"
+      exit
+    end
+  end
+
+  def incrament_guess_count
+    @guess_count += 1
+  end
+
+  def beginner?(player_input)
+    if player_input == "b" || player_input == "beginner"
+      true
+    else
+      false
+    end
+  end
+
+  def intermediate?(player_input)
+    if player_input == "i" || player_input == "intermediate"
+      true
+    else
+      false
+    end
+  end
+
+  def advanced?(player_input)
+    if player_input == "a" || player_input == "advanced"
+      true
+    else
+      false
+    end
+  end
+
+  def cheat?(player_input)
+    if player_input == "c" || player_input == "cheat"
+      true
+    else
+      false
+    end
   end
 end
