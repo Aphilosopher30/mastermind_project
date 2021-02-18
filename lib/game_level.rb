@@ -1,3 +1,4 @@
+require './lib/game'
 class GameLevel
   attr_reader :color_amount, :code_length, :all_colors, :current_colors
 
@@ -39,7 +40,16 @@ class GameLevel
     array_of_color_names[0..-2].join(", ") + " and " + array_of_color_names[-1]
   end
 
+  def are_all_pegs_valid_colors?(list_of_pegs)
+    list_of_pegs.all? do |peg|
+      is_this_peg_a_valid_color?(peg)
+    end
+  end
 
-
+  def is_this_peg_a_valid_color?(peg)
+    @current_colors.any? do |color|
+      color == peg.color
+    end
+  end
 
 end

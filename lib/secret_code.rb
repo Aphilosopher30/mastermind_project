@@ -3,7 +3,7 @@ require './lib/peg'
 class SecretCode
   attr_reader :pegs
 
-  def initialize(pegs = self.create_random_peg_color)
+  def initialize(pegs)
     @pegs = pegs
   end
 
