@@ -72,8 +72,8 @@ class Game
   def player_gameflow
     restart = true
     while restart == true
-      # restart = false
-      # @guess_count = 0
+      restart = false
+      @guess_count = 0
       guess_the_code
       restart = end_game
     end
