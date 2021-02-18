@@ -46,16 +46,14 @@ class GameTest < Minitest::Test
     peg7 = Peg.new('y')
     peg8 = Peg.new('b')
 
-    game.begin_playing
-
     secret_code = SecretCode.new([peg1, peg2, peg3, peg4])
     guess = Guess.new([peg5, peg6, peg7, peg8])
 
-    turn = Turn.new(secret_code, guess)
+    game.set_secret_game_code
 
     feedback = "'RGYB' has 4 of the correct elements with 4 in the correct positions \n You've taken 1 guess"
 
-    assert_equal feedback, game.evaluate_guess(turn)
+    assert_equal feedback, game.evaluate_guess(guess)
   end
 
   def test_incrament_guess_count

@@ -78,7 +78,7 @@ class Game
   end
 
   def guess_the_code
-    while @correct_guesses != secret_game_code.pegs.length
+    while @correct_guesses != @secret_game_code.pegs.length
       input = get_input
       gameflow_input_response(input)
     end
@@ -89,7 +89,11 @@ class Game
       puts @secret_game_code.pegs_to_strings
     elsif check_guess_length(input)
       guess = turn_string_into_guess(input)
-      evaluate_guess(guess)
+      if @difficulty.are_all_pegs_valid_colors?(guess.pegs)
+        evaluate_guess(guess)
+      else
+        puts "I'm sorry, that guess contains invalid pegs. please use valid colors including: #{@difficulty.current_colors.join(", ")}."
+      end
     else
       puts "I'm sorry, I don't know what #{input} means. \n\n Please enter a #{@difficulty.code_length} character sequences using these elements: #{@difficulty.current_colors.join(", ")}, for your guess or (q)uit to exit game."
     end
